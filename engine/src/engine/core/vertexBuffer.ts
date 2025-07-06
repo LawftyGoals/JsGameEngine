@@ -1,6 +1,6 @@
 "use strict";
 
-import * as mGL from "./gl.js";
+import * as mGL from "./gl.ts";
 
 let mGLVertexBuffer: WebGLBuffer | null = null;
 

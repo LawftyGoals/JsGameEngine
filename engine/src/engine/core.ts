@@ -1,8 +1,8 @@
 "use strict";
 
-import * as vertexBuffer from "./core/vertexBuffer.js";
-//import { SimpleShader } from "./SimpleShader.js";
-import { AsyncSimpleShader } from "./AsyncSimpleShader.js";
+import * as vertexBuffer from "./core/vertexBuffer.ts";
+//import { SimpleShader } from "./SimpleShader.ts";
+import { AsyncSimpleShader } from "./AsyncSimpleShader.ts";
 
 let mGL: WebGL2RenderingContext | null = null;
 

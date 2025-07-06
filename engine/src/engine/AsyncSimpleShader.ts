@@ -1,5 +1,5 @@
-import * as core from "./core.js";
-import * as vertexBuffer from "./core/vertexBuffer.js";
+import * as sysGL from "./core/gl.ts";
+import * as vertexBuffer from "./core/vertexBuffer.ts";
 
 export class AsyncSimpleShader {
   mVertexShader: null | WebGLShader;
@@ -15,7 +15,7 @@ export class AsyncSimpleShader {
     this.mFragmentShader = null;
     this.mPixelColorRef = null;
 
-    this.mGl = core.getGL()!;
+    this.mGl = sysGL.get()!;
   }
 
   async runShaderProcess(vertexShaderId: string, fragmentShaderId: string) {
@@ -50,7 +50,7 @@ export class AsyncSimpleShader {
   }
 
   activate(pixelColor: Float32List) {
-    const gl = core.getGL()!;
+    const gl = sysGL.get()!;
     gl.useProgram(this.mCompiledShader);
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer.get());
     gl.vertexAttribPointer(this.mVertexPositionRef!, 3, gl.FLOAT, false, 0, 0);
@@ -62,10 +62,9 @@ export class AsyncSimpleShader {
 }
 
 async function asyncLoadAndCompileShader(fileName: string, shaderType: GLenum) {
-  const gl = core.getGL()!;
+  const gl = sysGL.get()!;
 
   const shaderSource = await getShader(fileName);
-  console.log(shaderSource);
   const compiledShader = gl.createShader(shaderType)!;
 
   gl.shaderSource(compiledShader, shaderSource);
@@ -83,7 +82,6 @@ async function asyncLoadAndCompileShader(fileName: string, shaderType: GLenum) {
 
 async function getShader(fileName: string) {
   const response = await fetch(`./src/shaders/${fileName}.glsl`);
-  console.log(response);
   if (!response.ok) {
     throw Error(`Failed to fetch shader: ${fileName}`);
   } else {

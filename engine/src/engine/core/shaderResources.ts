@@ -1,6 +1,6 @@
 "use strict";
 
-import { AsyncSimpleShader } from "../AsyncSimpleShader.js";
+import { AsyncSimpleShader } from "../AsyncSimpleShader.ts";
 
 const kSimpleVS = "SimpleVertexShader";
 const kSimpleFS = "SimpleFragmentShader";

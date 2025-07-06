@@ -1,5 +1,5 @@
-import * as core from "./core.js";
-import * as vertexBuffer from "./core/vertexBuffer.js";
+import * as core from "./core.ts";
+import * as vertexBuffer from "./core/vertexBuffer.ts";
 
 export class SimpleShader {
   mVertexShader: null | WebGLShader;
