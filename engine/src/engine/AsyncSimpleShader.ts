@@ -7,13 +7,16 @@ export class AsyncSimpleShader {
   mCompiledShader: null | WebGLProgram;
   mVertexPositionRef: null | GLint;
   mPixelColorRef: null | WebGLUniformLocation;
+  mModelMatrixRef: null | WebGLUniformLocation;
   mGl: WebGL2RenderingContext;
+
   constructor() {
     this.mCompiledShader = null;
     this.mVertexPositionRef = null;
     this.mVertexShader = null;
     this.mFragmentShader = null;
     this.mPixelColorRef = null;
+    this.mModelMatrixRef = null;
 
     this.mGl = sysGL.get()!;
   }
@@ -47,9 +50,11 @@ export class AsyncSimpleShader {
       this.mCompiledShader,
       "uPixelColor"
     );
+    this.mModelMatrixRef = this.mGl.getUniformLocation(this.mCompiledShader, "uModelXformMatrix");
+
   }
 
-  activate(pixelColor: Float32List) {
+  activate(pixelColor: Float32List, trsMatrix: number[]) {
     const gl = sysGL.get()!;
     gl.useProgram(this.mCompiledShader);
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer.get());
@@ -58,6 +63,7 @@ export class AsyncSimpleShader {
 
     // load uniforms
     gl.uniform4fv(this.mPixelColorRef!, pixelColor);
+    gl.uniformMatrix4fv(this.mModelMatrixRef, false, trsMatrix);
   }
 }
 
@@ -73,7 +79,7 @@ async function asyncLoadAndCompileShader(fileName: string, shaderType: GLenum) {
   if (!gl.getShaderParameter(compiledShader, gl.COMPILE_STATUS)) {
     throw Error(
       "Error compiling shader in shaderSupport: " +
-        gl.getShaderInfoLog(compiledShader)
+      gl.getShaderInfoLog(compiledShader)
     );
   }
 

@@ -1,4 +1,5 @@
 import * as engine from "../engine/entry.ts";
+import * as mat4 from "../matrix/mat4.ts"
 
 class CoreGame {
   constructor(htmlCanvasId: string) {
@@ -14,9 +15,13 @@ class CoreGame {
     mRedSq.setColor([1.0, 0.0, 0.0, 1.0]);
 
     engine.clearCanvas([0.0, 8.0, 0.0, 1.0]);
+    let trsMatrix = [1, 1, 1];
+    mat4.simpleTranslate(trsMatrix, [-0.1, -0.5, -0.1]);
+    console.log(trsMatrix);
+    let trsMatrix2 = mat4.simpleTranslate([1, 1, 1], [-0.5, 0.1, 0.1]);
 
-    mWhiteSq.draw();
-    mRedSq.draw();
+    mWhiteSq.draw(trsMatrix);
+    mRedSq.draw(trsMatrix2);
   }
 }
 
