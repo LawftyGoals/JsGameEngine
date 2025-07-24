@@ -166,7 +166,7 @@ export class Matrix4 {
 
     scale(vector: number[]) {
         const [x, y, z] = vector;
-        this.m00 = 1 * x;
+        this.m00 = this.m00 * x;
         this.m01 = this.m01 * x;
         this.m02 = this.m02 * x;
         this.m03 = this.m03 * x;

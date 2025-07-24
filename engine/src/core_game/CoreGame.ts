@@ -1,5 +1,4 @@
 import * as engine from "../engine/entry.ts";
-import * as mat4 from "../matrix/mat4.ts"
 import { Matrix4 } from "../matrix/Matrix4.ts"
 
 class CoreGame {
@@ -16,20 +15,19 @@ class CoreGame {
     mRedSq.setColor([1.0, 0.0, 0.0, 1.0]);
 
     engine.clearCanvas([0.0, 8.0, 0.0, 1.0]);
-    let trsMatrix = [1, 1, 1];
-    mat4.simpleTranslate(trsMatrix, [-0.1, -0.5, -0.1]);
-    console.log(trsMatrix);
-    let trsMatrix2 = mat4.simpleTranslate([1, 1, 1], [-0.5, 0.1, 0.1]);
 
     const trsMat = new Matrix4()
-    //trsMat.translate([-0.1, 0.1, 0.0]);
-    //trsMat.scale([1.5, 0.5, 0.75]);
-    //trsMat.rotateX(5);
-    //trsMat.rotateY(2);
-    trsMat.rotateZ(0.8);
-    trsMat.scale([1.5, 0.5, 0.75]);
+
+    trsMat.translate([-0.25, 0.25, 0.0]);
+    trsMat.rotateZ(0.2);
+    trsMat.scale([1.2, 1.2, 1.0]);
     mWhiteSq.draw(trsMat.get());
-    //mRedSq.draw(trsMatrix2);
+
+    trsMat.identiy();
+    trsMat.translate([0.25, -0.25, 0.0]);
+    trsMat.rotateZ(-0.785);
+    trsMat.scale([0.4, 0.4, 1.0]);
+    mRedSq.draw(trsMat.get());
   }
 }
 
