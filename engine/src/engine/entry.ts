@@ -2,6 +2,7 @@ import * as sysGL from "./core/gl.ts";
 import * as vertexBuffer from "./core/vertexBuffer.ts";
 import * as shaderResources from "./core/shaderResources.ts";
 import { Renderable } from "./Renderable.ts";
+import { Transform } from "./Transform.ts";
 
 export async function init(htmlCanvasId: string) {
   sysGL.init(htmlCanvasId);
@@ -15,4 +16,4 @@ export function clearCanvas(color: number[]) {
   gl.clear(gl.COLOR_BUFFER_BIT);
 }
 
-export { Renderable };
+export { Renderable, Transform };

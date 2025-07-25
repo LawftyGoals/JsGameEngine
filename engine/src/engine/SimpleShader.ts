@@ -54,7 +54,7 @@ function loadAndCompileShader(id: string, shaderType: GLenum) {
   if (!gl.getShaderParameter(compiledShader, gl.COMPILE_STATUS)) {
     throw Error(
       "Error compiling shader in shaderSupport: " +
-        gl.getShaderInfoLog(compiledShader)
+      gl.getShaderInfoLog(compiledShader)
     );
   }
 

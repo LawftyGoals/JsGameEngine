@@ -8,6 +8,8 @@ export class AsyncSimpleShader {
   mVertexPositionRef: null | GLint;
   mPixelColorRef: null | WebGLUniformLocation;
   mModelMatrixRef: null | WebGLUniformLocation;
+  mCameraMatrixRef: null | WebGLUniformLocation;
+
   mGl: WebGL2RenderingContext;
 
   constructor() {
@@ -17,6 +19,7 @@ export class AsyncSimpleShader {
     this.mFragmentShader = null;
     this.mPixelColorRef = null;
     this.mModelMatrixRef = null;
+    this.mCameraMatrixRef = null;
 
     this.mGl = sysGL.get()!;
   }
@@ -51,10 +54,12 @@ export class AsyncSimpleShader {
       "uPixelColor"
     );
     this.mModelMatrixRef = this.mGl.getUniformLocation(this.mCompiledShader, "uModelXformMatrix");
+    this.mCameraMatrixRef = this.mGl.getUniformLocation(this.mCompiledShader, "uCameraXformMatrix");
+
 
   }
 
-  activate(pixelColor: Float32List, trsMatrix: number[]) {
+  activate(pixelColor: Float32List, trsMatrix: number[], cameraMatrix: number[]) {
     const gl = sysGL.get()!;
     gl.useProgram(this.mCompiledShader);
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer.get());
@@ -64,6 +69,7 @@ export class AsyncSimpleShader {
     // load uniforms
     gl.uniform4fv(this.mPixelColorRef!, pixelColor);
     gl.uniformMatrix4fv(this.mModelMatrixRef, false, trsMatrix);
+    gl.uniformMatrix4fv(this.mCameraMatrixRef, false, cameraMatrix);
   }
 }
 

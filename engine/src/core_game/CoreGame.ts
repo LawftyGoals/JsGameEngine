@@ -1,5 +1,4 @@
 import * as engine from "../engine/entry.ts";
-import { Matrix4 } from "../matrix/Matrix4.ts"
 
 class CoreGame {
   constructor(htmlCanvasId: string) {
@@ -16,13 +15,11 @@ class CoreGame {
 
     engine.clearCanvas([0.0, 8.0, 0.0, 1.0]);
 
-    const trsMat = new Matrix4()
+    mWhiteSq.getTransform().setPosition(-0.25, 0.25).setRotationInRadians(0.2).setSize(1.2, 1.2);
+    mWhiteSq.draw();
 
-    trsMat.translate([-0.25, 0.25, 0.0]).rotateZ(0.2).scale([1.2, 1.2, 1.0]);
-    mWhiteSq.draw(trsMat.get());
-
-    trsMat.identiy().translate([0.25, -0.25, 0.0]).rotateZ(-0.785).scale([0.4, 0.4, 1.0]);
-    mRedSq.draw(trsMat.get());
+    mRedSq.getTransform().setXPosition(0.25).setYPosition(-0.25).setRotationInDegree(45).setWidth(0.4).setHeight(0.4);
+    mRedSq.draw();
   }
 }
 

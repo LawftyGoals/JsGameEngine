@@ -360,8 +360,8 @@ export class Matrix4 {
     }
 
 
-    scale(vector: number[]) {
-        const [x, y, z] = vector;
+    scale(vector3: [number, number, number]) {
+        const [x, y, z] = vector3;
         this.tm00 = this.tm00 * x;
         this.tm01 = this.tm01 * x;
         this.tm02 = this.tm02 * x;
@@ -379,8 +379,8 @@ export class Matrix4 {
 
     }
 
-    translate(vector: number[]) {
-        const [x, y, z] = vector;
+    translate(vector3: [number, number, number]) {
+        const [x, y, z] = vector3;
         this.tm30 = this.tm30 + this.tm00 * x + this.tm10 * y + this.tm20 * z;
         this.tm31 = this.tm31 + this.tm01 * x + this.tm11 * y + this.tm21 * z;
         this.tm32 = this.tm32 + this.tm02 * x + this.tm12 * y + this.tm22 * z;
