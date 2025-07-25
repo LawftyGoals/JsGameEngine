@@ -18,15 +18,10 @@ class CoreGame {
 
     const trsMat = new Matrix4()
 
-    trsMat.translate([-0.25, 0.25, 0.0]);
-    trsMat.rotateZ(0.2);
-    trsMat.scale([1.2, 1.2, 1.0]);
+    trsMat.translate([-0.25, 0.25, 0.0]).rotateZ(0.2).scale([1.2, 1.2, 1.0]);
     mWhiteSq.draw(trsMat.get());
 
-    trsMat.identiy();
-    trsMat.translate([0.25, -0.25, 0.0]);
-    trsMat.rotateZ(-0.785);
-    trsMat.scale([0.4, 0.4, 1.0]);
+    trsMat.identiy().translate([0.25, -0.25, 0.0]).rotateZ(-0.785).scale([0.4, 0.4, 1.0]);
     mRedSq.draw(trsMat.get());
   }
 }
