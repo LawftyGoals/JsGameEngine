@@ -1,4 +1,4 @@
-import * as sysGL from "./core/gl.ts";
+import * as sysGL from "./core/sysGL.ts";
 import * as vertexBuffer from "./core/vertexBuffer.ts";
 
 export class AsyncSimpleShader {

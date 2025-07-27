@@ -1,5 +1,5 @@
 import type { AsyncSimpleShader } from "./AsyncSimpleShader";
-import * as sysGL from "./core/gl.ts";
+import * as sysGL from "./core/sysGL.ts";
 import * as shaderResources from "./core/shaderResources.ts";
 import { Transform } from "./Transform.ts";
 

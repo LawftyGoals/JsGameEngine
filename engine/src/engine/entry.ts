@@ -1,4 +1,4 @@
-import * as sysGL from "./core/gl.ts";
+import * as sysGL from "./core/sysGL.ts";
 import * as vertexBuffer from "./core/vertexBuffer.ts";
 import * as shaderResources from "./core/shaderResources.ts";
 import { Renderable } from "./Renderable.ts";
