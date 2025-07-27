@@ -1,11 +1,13 @@
-import type { AsyncSimpleShader } from "./AsyncSimpleShader";
+import type { AsyncSimpleShader } from "./AsyncSimpleShader.ts";
 import * as sysGL from "./core/sysGL.ts";
 import * as shaderResources from "./core/shaderResources.ts";
 import { Transform } from "./Transform.ts";
+import type { TVector4 } from "../matrix/VectorTypes.ts";
+import type { Camera } from "./Camera.ts";
 
 export class Renderable {
   mShader: AsyncSimpleShader;
-  mColor: number[];
+  mColor: TVector4;
   mTransform: Transform;
   constructor() {
     this.mShader = shaderResources.getConstColorShader()!;
@@ -13,7 +15,7 @@ export class Renderable {
     this.mTransform = new Transform();
   }
 
-  setColor(color: number[]) {
+  setColor(color: TVector4) {
     this.mColor = color;
   }
 
@@ -25,9 +27,9 @@ export class Renderable {
     return this.mTransform;
   }
 
-  draw(cameraMatrix: number[]) {
-    const gl = sysGL.get()!;
-    this.mShader.activate(this.mColor, this.mTransform.getTransformMatrix(), cameraMatrix);
+  draw(camera: Camera) {
+    const gl = sysGL.get();
+    this.mShader.activate(this.mColor, this.mTransform.getTransformMatrix(), camera.getCameraMatrix());
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
   }
 }

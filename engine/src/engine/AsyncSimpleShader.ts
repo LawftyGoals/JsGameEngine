@@ -1,3 +1,4 @@
+import type { TMatrix4 } from "../matrix/Matrix4.ts";
 import * as sysGL from "./core/sysGL.ts";
 import * as vertexBuffer from "./core/vertexBuffer.ts";
 
@@ -21,7 +22,7 @@ export class AsyncSimpleShader {
     this.mModelMatrixRef = null;
     this.mCameraMatrixRef = null;
 
-    this.mGl = sysGL.get()!;
+    this.mGl = sysGL.get();
   }
 
   async runShaderProcess(vertexShaderId: string, fragmentShaderId: string) {
@@ -59,8 +60,8 @@ export class AsyncSimpleShader {
 
   }
 
-  activate(pixelColor: Float32List, trsMatrix: number[], cameraMatrix: number[]) {
-    const gl = sysGL.get()!;
+  activate(pixelColor: Float32List, trsMatrix: TMatrix4, cameraMatrix: TMatrix4) {
+    const gl = sysGL.get();
     gl.useProgram(this.mCompiledShader);
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer.get());
     gl.vertexAttribPointer(this.mVertexPositionRef!, 3, gl.FLOAT, false, 0, 0);
@@ -74,7 +75,7 @@ export class AsyncSimpleShader {
 }
 
 async function asyncLoadAndCompileShader(fileName: string, shaderType: GLenum) {
-  const gl = sysGL.get()!;
+  const gl = sysGL.get();
 
   const shaderSource = await getShader(fileName);
   const compiledShader = gl.createShader(shaderType)!;

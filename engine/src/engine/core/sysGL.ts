@@ -4,7 +4,7 @@ let mCanvas: HTMLCanvasElement | null = null;
 let mGL: WebGL2RenderingContext | null = null;
 
 export function get() {
-  return mGL;
+  return mGL!;
 }
 
 export function init(htmlCanvasId: string) {

@@ -13,7 +13,7 @@ const testSquare = [
 ];
 
 export function init() {
-  const gl = mGL.get()!;
+  const gl = mGL.get();
 
   mGLVertexBuffer = gl.createBuffer();
 

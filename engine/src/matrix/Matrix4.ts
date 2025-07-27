@@ -1,4 +1,5 @@
 
+export type TMatrix4 = [number, number, number, number, number, number, number, number, number, number, number, number, number, number, number, number];
 
 export class Matrix4 {
     m00: number;
@@ -213,7 +214,7 @@ export class Matrix4 {
     //TRANSFORMED? 
 
 
-    get() {
+    get(): TMatrix4 {
         return [
             this.tm00,
             this.tm01,

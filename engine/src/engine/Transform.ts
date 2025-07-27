@@ -1,9 +1,10 @@
 import { Matrix4 } from "../matrix/Matrix4";
+import type { TVector2 } from "../matrix/VectorTypes";
 
 export class Transform {
     mRotationInRadians: number;
-    mScale: number[];
-    mPosition: number[];
+    mScale: TVector2;
+    mPosition: TVector2;
     constructor() {
         this.mPosition = [0, 0];
         this.mScale = [1, 1];
