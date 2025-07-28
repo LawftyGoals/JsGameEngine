@@ -32,6 +32,12 @@ export class Transform {
         return this;
     }
 
+    increaseXPositionBy(deltaX: number) {
+        this.setXPosition(this.mPosition[0] + deltaX);
+
+        return this;
+    }
+
     getYPosition() {
         return this.mPosition[1];
     }
@@ -66,6 +72,12 @@ export class Transform {
         return this.mScale;
     }
 
+    increaseSizeBy(increment: number) {
+        this.setSize(this.mScale[0] + increment, this.mScale[1] + increment);
+
+        return this;
+    }
+
     setSize(width: number, height: number) {
         this.setWidth(width);
         this.setHeight(height);
@@ -89,6 +101,12 @@ export class Transform {
 
     setRotationInDegree(rotationInDegrees: number) {
         this.setRotationInRadians(rotationInDegrees * Math.PI / 180);
+
+        return this;
+    }
+
+    increaseRotationByDegrees(degrees: number) {
+        this.setRotationInDegree(this.getRotationInDegrees() + degrees);
 
         return this;
     }

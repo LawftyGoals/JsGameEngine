@@ -1,58 +1,71 @@
 import * as engine from "../engine/entry.ts";
+import * as loop from "../engine/core/loop";
 
 class CoreGame {
+
+  mCamera: engine.Camera | null;
+  mWhiteSq: engine.Renderable | null;
+  mRedSq: engine.Renderable | null;
+
   constructor(htmlCanvasId: string) {
-    this.runShaders(htmlCanvasId);
+    this.asyncRunEngine(htmlCanvasId);
+    this.mCamera = null;
+
+    this.mWhiteSq = null;
+    this.mRedSq = null;
+
   }
 
-  async runShaders(htmlCanvasId: string) {
+  async asyncRunEngine(htmlCanvasId: string) {
     await engine.init(htmlCanvasId);
 
-    const mCamera = new engine.Camera([20, 60], 20, [20, 40, 600, 300]);
-
-    const mBlueSq = new engine.Renderable();
-    mBlueSq.setColor([0.25, 0.25, 0.95, 1]);
-    const mRedSq = new engine.Renderable();
-    mRedSq.setColor([1, 0.25, 0.25, 1]);
-    const mTLSq = new engine.Renderable();
-    mTLSq.setColor([0.9, 0.1, 0.1, 1]);
-    const mTRSq = new engine.Renderable();
-    mTRSq.setColor([0.1, 0.9, 0.1, 1]);
-    const mBRSq = new engine.Renderable();
-    mBRSq.setColor([0.1, 0.1, 0.9, 1]);
-    const mBLSq = new engine.Renderable();
-    mBLSq.setColor([0.1, 0.1, 0.1, 1]);
-
-    engine.clearCanvas([0.9, 0.9, 0.9, 1.0]);
-
-    mCamera.setViewAndCameraMatrix();
-
-
-
-    mBlueSq.getTransform().setPosition(20, 60)
-      .setRotationInRadians(0.2)
-      .setSize(5, 5);
-    mBlueSq.draw(mCamera);
-
-
-    mRedSq.getTransform().setPosition(20, 60).setSize(2, 2);
-    mRedSq.draw(mCamera);
-
-    // top left
-    mTLSq.getTransform().setPosition(10, 65);
-    mTLSq.draw(mCamera);
-    mTRSq.getTransform().setPosition(30, 65);
-    mTRSq.draw(mCamera);
-    mBRSq.getTransform().setPosition(30, 55);
-    mBRSq.draw(mCamera);
-    mBLSq.getTransform().setPosition(10, 55);
-    mBLSq.draw(mCamera);
-
-
-
   }
+
+  init() {
+    this.mCamera = new engine.Camera([20, 60], 20, [20, 40, 600, 300]);
+
+    this.mCamera.setBackgroundColor([0.8, 0.8, 0.8, 1.0]);
+
+    this.mWhiteSq = new engine.Renderable();
+    this.mWhiteSq.setColor([1.0, 1.0, 1.0, 1.0]);
+
+    this.mRedSq = new engine.Renderable();
+    this.mRedSq.setColor([1.0, 0.0, 0.0, 1.0]);
+
+    this.mWhiteSq.getTransform().setPosition(20, 60).setRotationInRadians(0.2).setSize(5, 5);
+
+    this.mRedSq.getTransform().setPosition(20, 60).setSize(2, 2);
+  }
+
+  draw() {
+    engine.clearCanvas([0.9, 0.9, 0.9, 1.0]);
+    this.mCamera?.setViewAndCameraMatrix();
+    this.mWhiteSq?.draw(this.mCamera!);
+    this.mRedSq?.draw(this.mCamera!);
+  }
+
+  update() {
+    const whiteTransform = this.mWhiteSq?.getTransform();
+    const deltaTransform = 0.05;
+
+    if (whiteTransform?.getXPosition()! > 30) {
+      whiteTransform?.setPosition(10, 60);
+    }
+
+    whiteTransform?.increaseXPositionBy(deltaTransform);
+    whiteTransform?.increaseRotationByDegrees(1);
+
+    const redTransform = this.mRedSq?.getTransform();
+    if (redTransform!.getWidth() > 5) {
+      redTransform?.setSize(2, 2);
+    }
+
+    redTransform?.increaseSizeBy(deltaTransform);
+  }
+
 }
 
 window.onload = () => {
-  new CoreGame("GLCanvas");
+  const coreGame = new CoreGame("GLCanvas");
+  loop.start(coreGame);
 };
