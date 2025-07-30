@@ -69,7 +69,7 @@ export class Camera {
 
         const center = this.getWCCenter();
 
-        this.mCameraMatrix.scale([2.0 / this.getWCWidth(), 2.0 / this.getWCHeight(), 1.0])
+        this.mCameraMatrix.identiy().scale([2.0 / this.getWCWidth(), 2.0 / this.getWCHeight(), 1.0])
             .translate([-center[0], -center[1], 0]);
     }
 

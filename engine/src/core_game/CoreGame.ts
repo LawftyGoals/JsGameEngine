@@ -1,23 +1,17 @@
 import * as engine from "../engine/entry.ts";
 import * as loop from "../engine/core/loop";
 
-class CoreGame {
+export class CoreGame {
 
   mCamera: engine.Camera | null;
   mWhiteSq: engine.Renderable | null;
   mRedSq: engine.Renderable | null;
 
-  constructor(htmlCanvasId: string) {
-    this.asyncRunEngine(htmlCanvasId);
+  constructor() {
     this.mCamera = null;
 
     this.mWhiteSq = null;
     this.mRedSq = null;
-
-  }
-
-  async asyncRunEngine(htmlCanvasId: string) {
-    await engine.init(htmlCanvasId);
 
   }
 
@@ -66,6 +60,7 @@ class CoreGame {
 }
 
 window.onload = () => {
-  const coreGame = new CoreGame("GLCanvas");
+  engine.init("GLCanvas");
+  const coreGame = new CoreGame();
   loop.start(coreGame);
 };

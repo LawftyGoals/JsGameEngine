@@ -1,4 +1,4 @@
-import type { AsyncSimpleShader } from "./AsyncSimpleShader.ts";
+import type { SimpleShader } from "./SimpleShader.ts";
 import * as sysGL from "./core/sysGL.ts";
 import * as shaderResources from "./core/shaderResources.ts";
 import { Transform } from "./Transform.ts";
@@ -6,7 +6,7 @@ import type { TVector4 } from "../matrix/VectorTypes.ts";
 import type { Camera } from "./Camera.ts";
 
 export class Renderable {
-  mShader: AsyncSimpleShader;
+  mShader: SimpleShader;
   mColor: TVector4;
   mTransform: Transform;
   constructor() {
@@ -29,6 +29,7 @@ export class Renderable {
 
   draw(camera: Camera) {
     const gl = sysGL.get();
+
     this.mShader.activate(this.mColor, this.mTransform.getTransformMatrix(), camera.getCameraMatrix());
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
   }

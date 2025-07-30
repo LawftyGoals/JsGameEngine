@@ -4,6 +4,7 @@ import * as shaderResources from "./core/shaderResources.ts";
 import { Renderable } from "./Renderable.ts";
 import { Transform } from "./Transform.ts";
 import { Camera } from "./Camera.ts";
+import * as text from "./resources/text.ts";
 
 export async function init(htmlCanvasId: string) {
   sysGL.init(htmlCanvasId);
@@ -17,4 +18,4 @@ export function clearCanvas(color: number[]) {
   gl.clear(gl.COLOR_BUFFER_BIT);
 }
 
-export { Renderable, Transform, Camera };
+export { Renderable, Transform, Camera, text };

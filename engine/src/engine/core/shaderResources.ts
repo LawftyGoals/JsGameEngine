@@ -1,18 +1,26 @@
 "use strict";
 
-import { AsyncSimpleShader } from "../AsyncSimpleShader.ts";
+import { SimpleShader } from "../SimpleShader.ts";
+import { text } from "../entry.ts";
+import * as resourceMap from "./resourceMap.ts"
 
-const kSimpleVS = "SimpleVertexShader";
-const kSimpleFS = "SimpleFragmentShader";
-let mConstColorShader: AsyncSimpleShader | null = null;
+const kSimpleVS = "/src/shaders/SimpleVertexShader.glsl";
+const kSimpleFS = "/src/shaders/SimpleFragmentShader.glsl";
+let mConstColorShader: SimpleShader | null = null;
 
 async function createShaders() {
-  mConstColorShader = new AsyncSimpleShader();
-  await mConstColorShader.runShaderProcess(kSimpleVS, kSimpleFS);
+  mConstColorShader = new SimpleShader(kSimpleVS, kSimpleFS);
 }
 
-export async function init() {
-  await createShaders();
+export function init() {
+  const loadPromise = new Promise<void>(
+    async function (resolve) {
+      await Promise.all([text.load(kSimpleFS), text.load(kSimpleVS)]);
+      resolve();
+    }
+  ).then(function resolve() { createShaders(); });
+
+  resourceMap.pushPromise(loadPromise)
 }
 
 export function getConstColorShader() {
