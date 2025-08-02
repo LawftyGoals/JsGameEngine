@@ -1,7 +1,7 @@
-class MapEntry {
-    mData: string;
+class MapEntry<T> {
+    mData: T;
     mRefCount: number;
-    constructor(data: any) {
+    constructor(data: T) {
         this.mData = data;
         this.mRefCount = 1;
     }
@@ -24,7 +24,7 @@ class MapEntry {
 
 // MAP MANIPULATION
 
-const mMap = new Map<string, MapEntry>();
+const mMap = new Map();
 
 export function has(path: string) {
     return mMap.has(path);
