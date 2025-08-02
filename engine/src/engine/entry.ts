@@ -5,11 +5,13 @@ import { Renderable } from "./Renderable.ts";
 import { Transform } from "./Transform.ts";
 import { Camera } from "./Camera.ts";
 import * as text from "./resources/text.ts";
+import * as input from "./input.ts";
 
-export async function init(htmlCanvasId: string) {
+export function init(htmlCanvasId: string) {
   sysGL.init(htmlCanvasId);
   vertexBuffer.init();
-  await shaderResources.init();
+  shaderResources.init();
+  input.init();
 }
 
 export function clearCanvas(color: number[]) {
@@ -18,4 +20,4 @@ export function clearCanvas(color: number[]) {
   gl.clear(gl.COLOR_BUFFER_BIT);
 }
 
-export { Renderable, Transform, Camera, text };
+export { Renderable, Transform, Camera, text, input };

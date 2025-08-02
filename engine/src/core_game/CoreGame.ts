@@ -39,22 +39,29 @@ export class CoreGame {
   }
 
   update() {
-    const whiteTransform = this.mWhiteSq?.getTransform();
-    const deltaTransform = 0.05;
-
-    if (whiteTransform?.getXPosition()! > 30) {
-      whiteTransform?.setPosition(10, 60);
+    // Simple game: move the white square and pulse the red
+    const whiteXform = this.mWhiteSq!.getTransform();
+    const deltaX = 0.05;
+    // Step A: test for white square movement
+    if (engine.input.isKeyPressed(engine.input.keys.right)) {
+      if (whiteXform.getXPosition() > 30) { // right-bound of the window
+        whiteXform.setPosition(10, 60);
+      }
+      whiteXform.increaseXPositionBy(deltaX);
+    }
+    // Step B: test for white square rotation
+    if (engine.input.isKeyPressed(engine.input.keys.up)) {
+      whiteXform.increaseRotationByDegrees(1);
     }
 
-    whiteTransform?.increaseXPositionBy(deltaTransform);
-    whiteTransform?.increaseRotationByDegrees(1);
-
-    const redTransform = this.mRedSq?.getTransform();
-    if (redTransform!.getWidth() > 5) {
-      redTransform?.setSize(2, 2);
+    const redXform = this.mRedSq!.getTransform();
+    // Step C: test for pulsing the red square
+    if (engine.input.isKeyPressed(engine.input.keys.down)) {
+      if (redXform.getWidth() > 5) {
+        redXform.setSize(2, 2);
+      }
+      redXform.increaseSizeBy(0.05);
     }
-
-    redTransform?.increaseSizeBy(deltaTransform);
   }
 
 }

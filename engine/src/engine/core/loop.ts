@@ -2,6 +2,7 @@
 
 import type { CoreGame } from "../../core_game/CoreGame";
 import * as resourceMap from "./resourceMap";
+import { input } from "../entry.ts";
 
 const kUPS = 60;
 const kMPF = 1000 / kUPS;
@@ -24,6 +25,7 @@ function loopOnce() {
         mLagTime += elapsedTime;
 
         while ((mLagTime >= kMPF) && mLoopRunning) {
+            input.update();
             mCurrentScene!.update();
             mLagTime -= kMPF;
         }
