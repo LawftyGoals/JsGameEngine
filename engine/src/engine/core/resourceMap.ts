@@ -1,23 +1,26 @@
 class MapEntry<T> {
     mData: T;
     mRefCount: number;
+
     constructor(data: T) {
         this.mData = data;
         this.mRefCount = 1;
     }
+
     decreaseRef() {
         this.mRefCount--;
     }
     increaseRef() {
         this.mRefCount++;
     }
-    setData(data: any) { this.mData = data; }
+
+    setData(data: T) { this.mData = data; }
     getData() {
         return this.mData;
     }
 
     canRemove() {
-        return this.mRefCount == 0;
+        return this.mRefCount === 0;
     }
 
 }
