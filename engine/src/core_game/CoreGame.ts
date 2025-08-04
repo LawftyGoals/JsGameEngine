@@ -1,46 +1,36 @@
 import * as engine from "../engine/entry.ts";
 import * as loop from "../engine/core/loop";
+import { SceneFileParser } from "./SceneFileParser.ts";
 
 export class CoreGame {
 
   mCamera: engine.Camera | null;
-  mWhiteSq: engine.Renderable | null;
-  mRedSq: engine.Renderable | null;
+  mSceneFile: string;
+  mSquares: engine.Renderable[];
 
   constructor() {
+    this.mSceneFile = "assets/scene.xml";
+    this.mSquares = [];
     this.mCamera = null;
-
-    this.mWhiteSq = null;
-    this.mRedSq = null;
 
   }
 
   init() {
-    this.mCamera = new engine.Camera([20, 60], 20, [20, 40, 600, 300]);
+    const sceneParser = new SceneFileParser(engine.xml.get(this.mSceneFile));
 
-    this.mCamera.setBackgroundColor([0.8, 0.8, 0.8, 1.0]);
-
-    this.mWhiteSq = new engine.Renderable();
-    this.mWhiteSq.setColor([1.0, 1.0, 1.0, 1.0]);
-
-    this.mRedSq = new engine.Renderable();
-    this.mRedSq.setColor([1.0, 0.0, 0.0, 1.0]);
-
-    this.mWhiteSq.getTransform().setPosition(20, 60).setRotationInRadians(0.2).setSize(5, 5);
-
-    this.mRedSq.getTransform().setPosition(20, 60).setSize(2, 2);
+    this.mCamera = sceneParser.parseCamera();
+    sceneParser.parseSquares(this.mSquares);
   }
 
   draw() {
     engine.clearCanvas([0.9, 0.9, 0.9, 1.0]);
-    this.mCamera?.setViewAndCameraMatrix();
-    this.mWhiteSq?.draw(this.mCamera!);
-    this.mRedSq?.draw(this.mCamera!);
+    this.mCamera!.setViewAndCameraMatrix();
+    this.mSquares.forEach(square => square.draw(this.mCamera!));
   }
 
   update() {
     // Simple game: move the white square and pulse the red
-    const whiteXform = this.mWhiteSq!.getTransform();
+    const whiteXform = this.mSquares[0].getTransform();
     const deltaX = 0.05;
     // Step A: test for white square movement
     if (engine.input.isKeyPressed(engine.input.keys.right)) {
@@ -54,7 +44,7 @@ export class CoreGame {
       whiteXform.increaseRotationByDegrees(1);
     }
 
-    const redXform = this.mRedSq!.getTransform();
+    const redXform = this.mSquares[1].getTransform();
     // Step C: test for pulsing the red square
     if (engine.input.isKeyPressed(engine.input.keys.down)) {
       if (redXform.getWidth() > 5) {
@@ -62,6 +52,14 @@ export class CoreGame {
       }
       redXform.increaseSizeBy(0.05);
     }
+  }
+
+  load() {
+    engine.xml.load(this.mSceneFile);
+  }
+
+  unload() {
+    engine.xml.unload(this.mSceneFile);
   }
 
 }

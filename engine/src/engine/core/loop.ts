@@ -37,9 +37,11 @@ export async function start(scene: CoreGame) {
         throw new Error("loop already running");
     }
 
+    mCurrentScene = scene;
+    mCurrentScene.load();
+
     await resourceMap.waitOnPromises();
 
-    mCurrentScene = scene;
     mCurrentScene!.init();
     mPrevTime = performance.now();
     mLagTime = 0.0;
