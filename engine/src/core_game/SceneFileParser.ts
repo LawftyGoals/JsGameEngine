@@ -50,7 +50,6 @@ function getXMLNumber(element: Element, attributeName: string) {
 }
 
 function getXMLColleciton(element: Element, attributeName: string) {
-    console.log(attributeName);
     return element.getAttribute(attributeName)!.split(" ").map(val => Number(val));
 }
 
