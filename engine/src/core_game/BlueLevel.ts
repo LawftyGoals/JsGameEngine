@@ -6,9 +6,14 @@ export class BlueLevel extends engine.Scene {
   mSceneFile: string;
   mSquares: engine.Renderable[];
   mCamera: null | engine.Camera;
+  mBackgroundAudio: string;
+  mCue: string;
 
   constructor() {
     super();
+    this.mBackgroundAudio = "assets/sounds/bg_clip.mp3";
+    this.mCue = "assets/sounds/my_game_cue.wav";
+
     this.mSceneFile = "assets/scene.xml";
     this.mSquares = [];
     this.mCamera = null;
@@ -19,6 +24,8 @@ export class BlueLevel extends engine.Scene {
     this.mCamera = sceneParser.parseCamera();
 
     sceneParser.parseSquares(this.mSquares);
+
+    engine.audio.playBackground(this.mBackgroundAudio, 1.0);
   }
 
   draw() {
@@ -30,10 +37,18 @@ export class BlueLevel extends engine.Scene {
 
   load() {
     engine.xml.load(this.mSceneFile);
+
+    engine.audio.load(this.mBackgroundAudio);
+    engine.audio.load(this.mCue);
   }
 
   unload() {
+    engine.audio.stopBackground();
+
     engine.xml.unload(this.mSceneFile);
+
+    engine.audio.unload(this.mBackgroundAudio);
+    engine.audio.unload(this.mCue);
   }
 
   next() {
@@ -48,6 +63,7 @@ export class BlueLevel extends engine.Scene {
 
     // Step A: test for white square movement
     if (engine.input.isKeyPressed(engine.input.keys.right)) {
+      engine.audio.playCue(this.mCue, 0.5);
       if (squareTransform!.getXPosition() > 30) {
         // right-bound of the window
         squareTransform!.setPosition(12, 60);
@@ -56,6 +72,7 @@ export class BlueLevel extends engine.Scene {
     }
     // Step B: test for white square rotation
     if (engine.input.isKeyPressed(engine.input.keys.left)) {
+      engine.audio.playCue(this.mCue, 1.5);
       squareTransform!.increaseXPositionBy(-deltaX);
       if (squareTransform!.getXPosition() < 11) {
         this.next();

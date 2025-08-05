@@ -5,9 +5,13 @@ export class CoreGame extends engine.Scene {
   mCamera: engine.Camera | null;
   mHero: null | engine.Renderable;
   mSupport: null | engine.Renderable;
+  mBackgroundAudio: string;
+  mCue: string;
 
   constructor() {
     super();
+    this.mBackgroundAudio = "assets/sounds/bg_clip.mp3";
+    this.mCue = "assets/sounds/my_game_cue.wav";
 
     this.mCamera = null;
 
@@ -26,6 +30,8 @@ export class CoreGame extends engine.Scene {
     this.mHero = new engine.Renderable();
     this.mHero.setColor([0.0, 0.0, 1.0, 1.0]);
     this.mHero.getTransform().setPosition(20, 60).setSize(2, 3);
+
+    engine.audio.playBackground(this.mBackgroundAudio, 1.0);
   }
 
   draw() {
@@ -35,6 +41,17 @@ export class CoreGame extends engine.Scene {
     this.mHero!.draw(this.mCamera!);
   }
 
+  load() {
+    engine.audio.load(this.mBackgroundAudio);
+    engine.audio.load(this.mCue);
+  }
+
+  unload() {
+    engine.audio.stopBackground();
+    engine.audio.unload(this.mBackgroundAudio);
+    engine.audio.unload(this.mCue);
+  }
+
   update() {
     // Simple game: move the white square and pulse the red
     const deltaX = 0.05;
@@ -42,6 +59,8 @@ export class CoreGame extends engine.Scene {
 
     // Step A: test for white square movement
     if (engine.input.isKeyPressed(engine.input.keys.right)) {
+      engine.audio.playCue(this.mCue, 0.5);
+      engine.audio.changeBackgroundVolume();
       if (heroTransform!.getXPosition() > 30) {
         // right-bound of the window
         heroTransform!.setPosition(12, 60);
@@ -50,6 +69,8 @@ export class CoreGame extends engine.Scene {
     }
     // Step B: test for white square rotation
     if (engine.input.isKeyPressed(engine.input.keys.left)) {
+      engine.audio.playCue(this.mCue, 1.5);
+      engine.audio.changeBackgroundVolume(-0.05);
       heroTransform!.increaseXPositionBy(-deltaX);
       if (heroTransform!.getXPosition() < 11) {
         this.next();
