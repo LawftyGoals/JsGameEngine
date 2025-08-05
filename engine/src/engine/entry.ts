@@ -6,7 +6,9 @@ import { Transform } from "./Transform.ts";
 import { Camera } from "./Camera.ts";
 import * as text from "./resources/text.ts";
 import * as input from "./input.ts";
-import * as xml from "./resources/xml.ts"
+import * as xml from "./resources/xml.ts";
+import { Scene } from "./Scene.ts";
+import * as loop from "./core/loop.ts";
 
 export function init(htmlCanvasId: string) {
   sysGL.init(htmlCanvasId);
@@ -21,4 +23,12 @@ export function clearCanvas(color: number[]) {
   gl.clear(gl.COLOR_BUFFER_BIT);
 }
 
-export { Camera, input, Renderable, text, Transform, xml };
+export function cleanUp() {
+  loop.cleanUp();
+  input.cleanUp();
+  shaderResources.cleanUp();
+  vertexBuffer.cleanUp();
+  sysGL.cleanUp();
+}
+
+export { Camera, input, Renderable, Scene, text, Transform, xml };

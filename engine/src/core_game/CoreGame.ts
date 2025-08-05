@@ -1,71 +1,74 @@
 import * as engine from "../engine/entry.ts";
-import * as loop from "../engine/core/loop";
-import { SceneFileParser } from "./SceneFileParser.ts";
+import { BlueLevel } from "./BlueLevel.ts";
 
-export class CoreGame {
-
+export class CoreGame extends engine.Scene {
   mCamera: engine.Camera | null;
-  mSceneFile: string;
-  mSquares: engine.Renderable[];
+  mHero: null | engine.Renderable;
+  mSupport: null | engine.Renderable;
 
   constructor() {
-    this.mSceneFile = "assets/scene.xml";
-    this.mSquares = [];
+    super();
+
     this.mCamera = null;
 
+    this.mHero = null;
+    this.mSupport = null;
   }
 
   init() {
-    const sceneParser = new SceneFileParser(engine.xml.get(this.mSceneFile));
+    this.mCamera = new engine.Camera([20, 60], 20, [20, 40, 600, 300]);
+    this.mCamera.setBackgroundColor([0.8, 0.8, 0.8, 1.0]);
 
-    this.mCamera = sceneParser.parseCamera();
-    sceneParser.parseSquares(this.mSquares);
+    this.mSupport = new engine.Renderable();
+    this.mSupport.setColor([0.8, 0.2, 0.2, 1.0]);
+    this.mSupport.getTransform().setPosition(20, 60).setSize(5, 5);
+
+    this.mHero = new engine.Renderable();
+    this.mHero.setColor([0.0, 0.0, 1.0, 1.0]);
+    this.mHero.getTransform().setPosition(20, 60).setSize(2, 3);
   }
 
   draw() {
     engine.clearCanvas([0.9, 0.9, 0.9, 1.0]);
     this.mCamera!.setViewAndCameraMatrix();
-    this.mSquares.forEach(square => square.draw(this.mCamera!));
+    this.mSupport!.draw(this.mCamera!);
+    this.mHero!.draw(this.mCamera!);
   }
 
   update() {
     // Simple game: move the white square and pulse the red
-    const whiteXform = this.mSquares[0].getTransform();
     const deltaX = 0.05;
+    const heroTransform = this.mHero?.getTransform();
+
     // Step A: test for white square movement
     if (engine.input.isKeyPressed(engine.input.keys.right)) {
-      if (whiteXform.getXPosition() > 30) { // right-bound of the window
-        whiteXform.setPosition(10, 60);
+      if (heroTransform!.getXPosition() > 30) {
+        // right-bound of the window
+        heroTransform!.setPosition(12, 60);
       }
-      whiteXform.increaseXPositionBy(deltaX);
+      heroTransform!.increaseXPositionBy(deltaX);
     }
     // Step B: test for white square rotation
-    if (engine.input.isKeyPressed(engine.input.keys.up)) {
-      whiteXform.increaseRotationByDegrees(1);
-    }
-
-    const redXform = this.mSquares[1].getTransform();
-    // Step C: test for pulsing the red square
-    if (engine.input.isKeyPressed(engine.input.keys.down)) {
-      if (redXform.getWidth() > 5) {
-        redXform.setSize(2, 2);
+    if (engine.input.isKeyPressed(engine.input.keys.left)) {
+      heroTransform!.increaseXPositionBy(-deltaX);
+      if (heroTransform!.getXPosition() < 11) {
+        this.next();
       }
-      redXform.increaseSizeBy(0.05);
     }
+
+    if (engine.input.isKeyPressed(engine.input.keys.Q)) this.stop();
   }
 
-  load() {
-    engine.xml.load(this.mSceneFile);
-  }
+  next() {
+    super.next();
 
-  unload() {
-    engine.xml.unload(this.mSceneFile);
+    const nextLevel = new BlueLevel();
+    nextLevel.start();
   }
-
 }
 
 window.onload = () => {
   engine.init("GLCanvas");
   const coreGame = new CoreGame();
-  loop.start(coreGame);
+  coreGame.start();
 };

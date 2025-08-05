@@ -2,7 +2,7 @@ import type { TMatrix4 } from "../matrix/Matrix4.ts";
 import * as sysGL from "./core/sysGL.ts";
 import * as vertexBuffer from "./core/vertexBuffer.ts";
 
-import * as text from "./resources/text.ts"
+import * as text from "./resources/text.ts";
 
 export class SimpleShader {
   mVertexShader: null | WebGLShader;
@@ -26,10 +26,7 @@ export class SimpleShader {
 
     this.mGl = sysGL.get();
 
-    this.mVertexShader = compileShader(
-      vertexShaderId,
-      this.mGl.VERTEX_SHADER
-    );
+    this.mVertexShader = compileShader(vertexShaderId, this.mGl.VERTEX_SHADER);
     this.mFragmentShader = compileShader(
       fragmentShaderId,
       this.mGl.FRAGMENT_SHADER
@@ -54,11 +51,21 @@ export class SimpleShader {
       this.mCompiledShader,
       "uPixelColor"
     );
-    this.mModelMatrixRef = this.mGl.getUniformLocation(this.mCompiledShader, "uModelXformMatrix");
-    this.mCameraMatrixRef = this.mGl.getUniformLocation(this.mCompiledShader, "uCameraXformMatrix");
+    this.mModelMatrixRef = this.mGl.getUniformLocation(
+      this.mCompiledShader,
+      "uModelXformMatrix"
+    );
+    this.mCameraMatrixRef = this.mGl.getUniformLocation(
+      this.mCompiledShader,
+      "uCameraXformMatrix"
+    );
   }
 
-  activate(pixelColor: Float32List, trsMatrix: TMatrix4, cameraMatrix: TMatrix4) {
+  activate(
+    pixelColor: Float32List,
+    trsMatrix: TMatrix4,
+    cameraMatrix: TMatrix4
+  ) {
     const gl = sysGL.get();
     gl.useProgram(this.mCompiledShader);
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer.get());
@@ -70,6 +77,16 @@ export class SimpleShader {
     gl.uniformMatrix4fv(this.mModelMatrixRef, false, trsMatrix);
     gl.uniformMatrix4fv(this.mCameraMatrixRef, false, cameraMatrix);
   }
+
+  cleanUp() {
+    let gl = sysGL.get();
+    gl.detachShader(this.mCompiledShader!, this.mVertexShader!);
+    gl.detachShader(this.mCompiledShader!, this.mFragmentShader!);
+
+    gl.deleteShader(this.mVertexShader);
+    gl.deleteShader(this.mFragmentShader);
+    gl.deleteProgram(this.mCompiledShader);
+  }
 }
 
 function compileShader(filePath: string, shaderType: GLenum) {
@@ -78,7 +95,6 @@ function compileShader(filePath: string, shaderType: GLenum) {
   const shaderSource = text.get(filePath);
   if (!shaderSource) {
     throw new Error("Warning: " + filePath + "not loaded!");
-
   }
   const compiledShader = gl.createShader(shaderType)!;
 
@@ -88,7 +104,7 @@ function compileShader(filePath: string, shaderType: GLenum) {
   if (!gl.getShaderParameter(compiledShader, gl.COMPILE_STATUS)) {
     throw Error(
       "Error compiling shader in shaderSupport: " +
-      gl.getShaderInfoLog(compiledShader)
+        gl.getShaderInfoLog(compiledShader)
     );
   }
 

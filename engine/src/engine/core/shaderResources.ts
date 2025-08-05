@@ -2,7 +2,7 @@
 
 import { SimpleShader } from "../SimpleShader.ts";
 import { text } from "../entry.ts";
-import * as resourceMap from "./resourceMap.ts"
+import * as resourceMap from "./resourceMap.ts";
 
 const kSimpleVS = "/src/shaders/SimpleVertexShader.glsl";
 const kSimpleFS = "/src/shaders/SimpleFragmentShader.glsl";
@@ -13,16 +13,22 @@ async function createShaders() {
 }
 
 export function init() {
-  const loadPromise = new Promise<void>(
-    async function (resolve) {
-      await Promise.all([text.load(kSimpleFS), text.load(kSimpleVS)]);
-      resolve();
-    }
-  ).then(function resolve() { createShaders(); });
+  const loadPromise = new Promise<void>(async function (resolve) {
+    await Promise.all([text.load(kSimpleFS), text.load(kSimpleVS)]);
+    resolve();
+  }).then(function resolve() {
+    createShaders();
+  });
 
-  resourceMap.pushPromise(loadPromise)
+  resourceMap.pushPromise(loadPromise);
 }
 
 export function getConstColorShader() {
   return mConstColorShader;
+}
+
+export function cleanUp() {
+  mConstColorShader?.cleanUp();
+  text.unload(kSimpleFS);
+  text.unload(kSimpleVS);
 }

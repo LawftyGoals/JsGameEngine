@@ -20,3 +20,15 @@ export function init(htmlCanvasId: string) {
     document.write("<b>WebGL 2 is not supported by your browser.</b>");
   }
 }
+
+export function cleanUp() {
+  if (mGL === null || mCanvas === null) {
+    throw new Error("Engine cleanup: gl system not initialized.");
+  }
+  mGL = null;
+  mCanvas.style.position = "fixed";
+  mCanvas.style.backgroundColor = "rgba(200,200,200,0.5)";
+  mCanvas = null;
+  document.body.innerHTML +=
+    "<br><br><h1>End of Game</h1><h2>GL System Ended</h2>";
+}

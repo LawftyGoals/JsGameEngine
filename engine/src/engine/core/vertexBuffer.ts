@@ -20,3 +20,10 @@ export function init() {
   gl.bindBuffer(gl.ARRAY_BUFFER, mGLVertexBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(testSquare), gl.STATIC_DRAW);
 }
+
+export function cleanUp() {
+  if (mGLVertexBuffer) {
+    mGL.get().deleteBuffer(mGLVertexBuffer);
+    mGLVertexBuffer = null;
+  }
+}
