@@ -1,7 +1,7 @@
 import * as sysGL from "./core/sysGL.ts";
 import * as vertexBuffer from "./core/vertexBuffer.ts";
 import * as shaderResources from "./core/shaderResources.ts";
-import { Renderable } from "./Renderable.ts";
+import { Renderable } from "./renderables/Renderable.ts";
 import { Transform } from "./Transform.ts";
 import { Camera } from "./Camera.ts";
 import * as text from "./resources/text.ts";
@@ -10,6 +10,9 @@ import * as xml from "./resources/xml.ts";
 import { Scene } from "./Scene.ts";
 import * as loop from "./core/loop.ts";
 import * as audio from "./resources/audio.ts";
+import * as texture from "./resources/texture.ts";
+import { TextureRenderable } from "./renderables/TextureRenderable.ts";
+
 
 export function init(htmlCanvasId: string) {
   sysGL.init(htmlCanvasId);
@@ -34,4 +37,4 @@ export function cleanUp() {
   audio.cleanUp();
 }
 
-export { audio, Camera, input, Renderable, Scene, text, Transform, xml };
+export { audio, Camera, input, Renderable, Scene, text, texture, TextureRenderable, Transform, xml };

@@ -14,11 +14,18 @@ export function init(htmlCanvasId: string) {
     throw new Error(`Canvas with id ${htmlCanvasId} not found.`);
   }
 
-  mGL = mCanvas.getContext("webgl2");
+  mGL = mCanvas.getContext("webgl2")!;
 
   if (mGL === null) {
     document.write("<b>WebGL 2 is not supported by your browser.</b>");
   }
+
+  mGL.blendFunc(mGL.SRC_ALPHA, mGL.ONE_MINUS_SRC_ALPHA);
+  mGL.enable(mGL.BLEND);
+
+  mGL.pixelStorei(mGL.UNPACK_FLIP_Y_WEBGL, true);
+
+
 }
 
 export function cleanUp() {

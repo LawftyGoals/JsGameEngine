@@ -1,8 +1,8 @@
-import type { TMatrix4 } from "../matrix/Matrix4.ts";
-import * as sysGL from "./core/sysGL.ts";
-import * as vertexBuffer from "./core/vertexBuffer.ts";
+import type { TMatrix4 } from "../../matrix/Matrix4.ts";
+import * as sysGL from "../core/sysGL.ts";
+import * as vertexBuffer from "../core/vertexBuffer.ts";
 
-import * as text from "./resources/text.ts";
+import * as text from "../resources/text.ts";
 
 export class SimpleShader {
   mVertexShader: null | WebGLShader;
@@ -69,6 +69,7 @@ export class SimpleShader {
     const gl = sysGL.get();
     gl.useProgram(this.mCompiledShader);
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer.get());
+    console.log({ vpr: this.mVertexPositionRef })
     gl.vertexAttribPointer(this.mVertexPositionRef!, 3, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(this.mVertexPositionRef!);
 
@@ -104,7 +105,7 @@ function compileShader(filePath: string, shaderType: GLenum) {
   if (!gl.getShaderParameter(compiledShader, gl.COMPILE_STATUS)) {
     throw Error(
       "Error compiling shader in shaderSupport: " +
-        gl.getShaderInfoLog(compiledShader)
+      gl.getShaderInfoLog(compiledShader)
     );
   }
 

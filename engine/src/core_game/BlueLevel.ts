@@ -8,6 +8,8 @@ export class BlueLevel extends engine.Scene {
   mCamera: null | engine.Camera;
   mBackgroundAudio: string;
   mCue: string;
+  kPortal: string;
+  kCollector: string;
 
   constructor() {
     super();
@@ -15,6 +17,10 @@ export class BlueLevel extends engine.Scene {
     this.mCue = "assets/sounds/my_game_cue.wav";
 
     this.mSceneFile = "assets/scene.xml";
+
+    this.kPortal = "assets/images/minion_portal.jpg";
+    this.kCollector = "assets/images/minion_collector.jpg";
+
     this.mSquares = [];
     this.mCamera = null;
   }
@@ -24,6 +30,7 @@ export class BlueLevel extends engine.Scene {
     this.mCamera = sceneParser.parseCamera();
 
     sceneParser.parseSquares(this.mSquares);
+    sceneParser.parseTextureSquares(this.mSquares);
 
     engine.audio.playBackground(this.mBackgroundAudio, 1.0);
   }
@@ -40,6 +47,9 @@ export class BlueLevel extends engine.Scene {
 
     engine.audio.load(this.mBackgroundAudio);
     engine.audio.load(this.mCue);
+
+    engine.texture.load(this.kPortal);
+    engine.texture.load(this.kCollector);
   }
 
   unload() {
@@ -49,6 +59,9 @@ export class BlueLevel extends engine.Scene {
 
     engine.audio.unload(this.mBackgroundAudio);
     engine.audio.unload(this.mCue);
+
+    engine.texture.textureUnload(this.kPortal);
+    engine.texture.textureUnload(this.kCollector);
   }
 
   next() {
@@ -80,5 +93,15 @@ export class BlueLevel extends engine.Scene {
     }
 
     if (engine.input.isKeyPressed(engine.input.keys.Q)) this.stop();
+
+
+    //temp changing collors on texture tinging
+    const c = this.mSquares[1].getColor();
+    let ca = c[3] + deltaX;
+    if (ca > 1) {
+      ca = 0;
+    }
+
+    c[3] = ca;
   }
 }

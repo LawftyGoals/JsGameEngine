@@ -1,9 +1,10 @@
-import type { SimpleShader } from "./SimpleShader.ts";
-import * as sysGL from "./core/sysGL.ts";
-import * as shaderResources from "./core/shaderResources.ts";
-import { Transform } from "./Transform.ts";
-import type { TVector4 } from "../matrix/VectorTypes.ts";
-import type { Camera } from "./Camera.ts";
+import type { SimpleShader } from "../shaders/SimpleShader.ts";
+import * as sysGL from "../core/sysGL.ts";
+import * as shaderResources from "../core/shaderResources.ts";
+import { Transform } from "../Transform.ts";
+import type { TVector4 } from "../../matrix/VectorTypes.ts";
+import type { Camera } from "../Camera.ts";
+import type { TextureShader } from "../shaders/TextureShader.ts";
 
 export class Renderable {
   mShader: SimpleShader;
@@ -32,5 +33,9 @@ export class Renderable {
 
     this.mShader.activate(this.mColor, this.mTransform.getTransformMatrix(), camera.getCameraMatrix());
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+  }
+
+  _setShader(shader: TextureShader) {
+    this.mShader = shader;
   }
 }

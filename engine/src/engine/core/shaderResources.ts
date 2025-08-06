@@ -1,20 +1,33 @@
 "use strict";
 
-import { SimpleShader } from "../SimpleShader.ts";
+import { SimpleShader } from "../shaders/SimpleShader.ts";
 import { text } from "../entry.ts";
 import * as resourceMap from "./resourceMap.ts";
+import { TextureShader } from "../shaders/TextureShader.ts";
 
-const kSimpleVS = "/src/shaders/SimpleVertexShader.glsl";
-const kSimpleFS = "/src/shaders/SimpleFragmentShader.glsl";
+const kSimpleVS = "src/shaders/SimpleVertexShader.glsl";
+const kSimpleFS = "src/shaders/SimpleFragmentShader.glsl";
+
+const kTextureVS = "src/shaders/TextureVertexShader.glsl";
+const kTextureFS = "src/shaders/TextureFragmentShader.glsl";
+
+
+let mTextureShader: TextureShader | null = null;
 let mConstColorShader: SimpleShader | null = null;
 
 async function createShaders() {
   mConstColorShader = new SimpleShader(kSimpleVS, kSimpleFS);
+  mTextureShader = new TextureShader(kTextureVS, kTextureFS);
 }
 
 export function init() {
   const loadPromise = new Promise<void>(async function (resolve) {
-    await Promise.all([text.load(kSimpleFS), text.load(kSimpleVS)]);
+    await Promise.all([
+      text.load(kSimpleFS),
+      text.load(kSimpleVS),
+      text.load(kTextureVS),
+      text.load(kTextureFS)
+    ]);
     resolve();
   }).then(function resolve() {
     createShaders();
@@ -23,12 +36,20 @@ export function init() {
   resourceMap.pushPromise(loadPromise);
 }
 
+export function getTextureShader() {
+  return mTextureShader!;
+}
+
 export function getConstColorShader() {
   return mConstColorShader;
 }
 
 export function cleanUp() {
   mConstColorShader?.cleanUp();
+  mTextureShader?.cleanUp();
+
   text.unload(kSimpleFS);
   text.unload(kSimpleVS);
+  text.unload(kTextureVS);
+  text.unload(kTextureFS);
 }

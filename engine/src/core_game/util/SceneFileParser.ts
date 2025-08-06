@@ -1,5 +1,5 @@
 import * as engine from "../../engine/entry.ts";
-import type { Renderable } from "../../engine/Renderable.ts";
+import type { Renderable } from "../../engine/renderables/Renderable.ts";
 import type { TVector4 } from "../../matrix/VectorTypes.ts";
 
 export class SceneFileParser {
@@ -47,6 +47,33 @@ export class SceneFileParser {
       sqSet.push(rSquare);
     });
   }
+
+
+  parseTextureSquares(squares: Renderable[]) {
+    const sqElement = getElement(this.xml, "TextureSquare");
+
+    Array.from(sqElement).forEach((square) => {
+      const rSquare = new engine.TextureRenderable(getXMLString(square, "Texture"));
+
+      rSquare.setColor(getXMLColleciton(square, "Color") as TVector4);
+
+      const transform = rSquare.getTransform();
+
+      transform.setPosition(
+        getXMLNumber(square, "PositionX"),
+        getXMLNumber(square, "PositionY")
+      );
+
+      transform.setRotationInDegree(getXMLNumber(square, "Rotation"));
+
+      transform.setSize(
+        getXMLNumber(square, "Width"),
+        getXMLNumber(square, "Height")
+      );
+
+      squares.push(rSquare);
+    });
+  }
 }
 
 function getXMLNumber(element: Element, attributeName: string) {
@@ -58,6 +85,10 @@ function getXMLColleciton(element: Element, attributeName: string) {
     .getAttribute(attributeName)!
     .split(" ")
     .map((val) => Number(val));
+}
+
+function getXMLString(element: Element, attributeName: string) {
+  return element.getAttribute(attributeName)!;
 }
 
 function getElement(xmlContent: XMLDocument, elementTag: string) {
