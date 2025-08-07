@@ -18,7 +18,7 @@ export class CoreGame extends engine.Scene {
     this.mBackgroundAudio = "assets/sounds/bg_clip.mp3";
     this.mCue = "assets/sounds/my_game_cue.wav";
 
-    this.kPortal = "assets/image/minion_portal.jpg";
+    this.kPortal = "assets/images/minion_portal.jpg";
     this.kCollector = "assets/images/minion_collector.jpg";
     this.mCamera = null;
 
