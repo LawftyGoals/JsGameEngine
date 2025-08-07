@@ -1,31 +1,43 @@
+"use strict";
+
 import * as engine from "../engine/entry.ts";
 import { BlueLevel } from "./BlueLevel.ts";
 
 export class CoreGame extends engine.Scene {
   mCamera: engine.Camera | null;
   mHero: null | engine.Renderable;
-  mSupport: null | engine.Renderable;
   mBackgroundAudio: string;
   mCue: string;
+  kPortal: string;
+  kCollector: string;
+  mPortal: null | engine.TextureRenderable;
+  mCollector: null | engine.TextureRenderable;
 
   constructor() {
     super();
     this.mBackgroundAudio = "assets/sounds/bg_clip.mp3";
     this.mCue = "assets/sounds/my_game_cue.wav";
 
+    this.kPortal = "assets/images/minion_portal.jpg";
+    this.kCollector = "assets/images/minion_collector.jpg";
     this.mCamera = null;
 
+    this.mPortal = null;
+    this.mCollector = null;
     this.mHero = null;
-    this.mSupport = null;
   }
 
   init() {
     this.mCamera = new engine.Camera([20, 60], 20, [20, 40, 600, 300]);
     this.mCamera.setBackgroundColor([0.8, 0.8, 0.8, 1.0]);
 
-    this.mSupport = new engine.Renderable();
-    this.mSupport.setColor([0.8, 0.2, 0.2, 1.0]);
-    this.mSupport.getTransform().setPosition(20, 60).setSize(5, 5);
+    this.mPortal = new engine.TextureRenderable(this.kPortal);
+    this.mPortal.setColor([1, 0, 0, 0.2]);
+    this.mPortal.getTransform().setPosition(25, 60).setSize(3, 3);
+
+    this.mCollector = new engine.TextureRenderable(this.kCollector);
+    this.mCollector.setColor([0, 0, 0, 0]);
+    this.mCollector.getTransform().setPosition(15, 60).setSize(3, 3);
 
     this.mHero = new engine.Renderable();
     this.mHero.setColor([0.0, 0.0, 1.0, 1.0]);
@@ -37,19 +49,24 @@ export class CoreGame extends engine.Scene {
   draw() {
     engine.clearCanvas([0.9, 0.9, 0.9, 1.0]);
     this.mCamera!.setViewAndCameraMatrix();
-    this.mSupport!.draw(this.mCamera!);
     this.mHero!.draw(this.mCamera!);
+    this.mPortal!.draw(this.mCamera!);
+    this.mCollector!.draw(this.mCamera!);
   }
 
   load() {
     engine.audio.load(this.mBackgroundAudio);
     engine.audio.load(this.mCue);
+    engine.texture.load(this.kPortal);
+    engine.texture.load(this.kCollector);
   }
 
   unload() {
     engine.audio.stopBackground();
     engine.audio.unload(this.mBackgroundAudio);
     engine.audio.unload(this.mCue);
+    engine.texture.unload(this.kPortal);
+    engine.texture.unload(this.kCollector);
   }
 
   update() {
@@ -78,6 +95,13 @@ export class CoreGame extends engine.Scene {
     }
 
     if (engine.input.isKeyPressed(engine.input.keys.Q)) this.stop();
+
+    let c = this.mPortal!.getColor();
+    let ca = c[3] + deltaX;
+    if (ca > 1) {
+      ca = 0;
+    }
+    c[3] = ca;
   }
 
   next() {

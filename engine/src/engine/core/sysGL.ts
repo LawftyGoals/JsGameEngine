@@ -14,7 +14,7 @@ export function init(htmlCanvasId: string) {
     throw new Error(`Canvas with id ${htmlCanvasId} not found.`);
   }
 
-  mGL = mCanvas.getContext("webgl2")!;
+  mGL = mCanvas.getContext("webgl2", { alpha: false })!;
 
   if (mGL === null) {
     document.write("<b>WebGL 2 is not supported by your browser.</b>");
@@ -24,8 +24,6 @@ export function init(htmlCanvasId: string) {
   mGL.enable(mGL.BLEND);
 
   mGL.pixelStorei(mGL.UNPACK_FLIP_Y_WEBGL, true);
-
-
 }
 
 export function cleanUp() {

@@ -60,8 +60,8 @@ export class BlueLevel extends engine.Scene {
     engine.audio.unload(this.mBackgroundAudio);
     engine.audio.unload(this.mCue);
 
-    engine.texture.textureUnload(this.kPortal);
-    engine.texture.textureUnload(this.kCollector);
+    engine.texture.unload(this.kPortal);
+    engine.texture.unload(this.kCollector);
   }
 
   next() {
@@ -93,7 +93,6 @@ export class BlueLevel extends engine.Scene {
     }
 
     if (engine.input.isKeyPressed(engine.input.keys.Q)) this.stop();
-
 
     //temp changing collors on texture tinging
     const c = this.mSquares[1].getColor();

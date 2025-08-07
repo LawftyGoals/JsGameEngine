@@ -1,12 +1,12 @@
-attribute vec3 aVertexPosition;
 attribute vec2 aTextureCoordinate;
 
 varying vec2 vTextureCoordinates;
 
-uniform mat4 uModelTransformMatrix;
-uniform mat4 uCameraTransformMatrix;
+attribute vec3 aVertexPosition;
+uniform mat4 uModelXformMatrix;
+uniform mat4 uCameraXformMatrix;
 
 void main(void) {
-    gl_Position = uCameraTransformMatrix * uModelTransformMatrix * vec4(aVertexPosition, 1.0);
+    gl_Position = uCameraXformMatrix * uModelXformMatrix * vec4(aVertexPosition, 1.0);
     vTextureCoordinates = aTextureCoordinate;
 }

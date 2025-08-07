@@ -31,11 +31,15 @@ export class Renderable {
   draw(camera: Camera) {
     const gl = sysGL.get();
 
-    this.mShader.activate(this.mColor, this.mTransform.getTransformMatrix(), camera.getCameraMatrix());
+    this.mShader.activate(
+      this.mColor,
+      this.mTransform.getTransformMatrix(),
+      camera.getCameraMatrix()
+    );
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
   }
 
-  _setShader(shader: TextureShader) {
+  _setShader(shader: SimpleShader) {
     this.mShader = shader;
   }
 }

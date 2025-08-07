@@ -29,6 +29,10 @@ export class Scene {
   init() {}
   load() {}
   unload() {}
-  draw() {}
-  update() {}
+  draw() {
+    throw kAbstractMethodError;
+  }
+  update() {
+    throw kAbstractMethodError;
+  }
 }

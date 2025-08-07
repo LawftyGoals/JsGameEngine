@@ -13,8 +13,6 @@ export class SimpleShader {
   mModelMatrixRef: null | WebGLUniformLocation;
   mCameraMatrixRef: null | WebGLUniformLocation;
 
-  mGl: WebGL2RenderingContext;
-
   constructor(vertexShaderId: string, fragmentShaderId: string) {
     this.mCompiledShader = null;
     this.mVertexPositionRef = null;
@@ -24,38 +22,34 @@ export class SimpleShader {
     this.mModelMatrixRef = null;
     this.mCameraMatrixRef = null;
 
-    this.mGl = sysGL.get();
+    const gl = sysGL.get();
 
-    this.mVertexShader = compileShader(vertexShaderId, this.mGl.VERTEX_SHADER);
-    this.mFragmentShader = compileShader(
-      fragmentShaderId,
-      this.mGl.FRAGMENT_SHADER
-    );
+    this.mVertexShader = compileShader(vertexShaderId, gl.VERTEX_SHADER);
+    this.mFragmentShader = compileShader(fragmentShaderId, gl.FRAGMENT_SHADER);
 
-    this.mCompiledShader = this.mGl.createProgram();
-    this.mGl.attachShader(this.mCompiledShader, this.mVertexShader);
-    this.mGl.attachShader(this.mCompiledShader, this.mFragmentShader);
-    this.mGl.linkProgram(this.mCompiledShader);
+    this.mCompiledShader = gl.createProgram();
+    gl.attachShader(this.mCompiledShader, this.mVertexShader);
+    gl.attachShader(this.mCompiledShader, this.mFragmentShader);
+    gl.linkProgram(this.mCompiledShader);
 
-    if (
-      !this.mGl.getProgramParameter(this.mCompiledShader, this.mGl.LINK_STATUS)
-    ) {
+    if (!gl.getProgramParameter(this.mCompiledShader, gl.LINK_STATUS)) {
       throw Error("Error linking shader in SimpleShader class");
     }
 
-    this.mVertexPositionRef = this.mGl.getAttribLocation(
+    this.mVertexPositionRef = gl.getAttribLocation(
       this.mCompiledShader,
       "aVertexPosition"
     );
-    this.mPixelColorRef = this.mGl.getUniformLocation(
+    console.log(this.mVertexPositionRef);
+    this.mPixelColorRef = gl.getUniformLocation(
       this.mCompiledShader,
       "uPixelColor"
     );
-    this.mModelMatrixRef = this.mGl.getUniformLocation(
+    this.mModelMatrixRef = gl.getUniformLocation(
       this.mCompiledShader,
       "uModelXformMatrix"
     );
-    this.mCameraMatrixRef = this.mGl.getUniformLocation(
+    this.mCameraMatrixRef = gl.getUniformLocation(
       this.mCompiledShader,
       "uCameraXformMatrix"
     );
@@ -69,7 +63,7 @@ export class SimpleShader {
     const gl = sysGL.get();
     gl.useProgram(this.mCompiledShader);
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer.get());
-    console.log({ vpr: this.mVertexPositionRef })
+
     gl.vertexAttribPointer(this.mVertexPositionRef!, 3, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(this.mVertexPositionRef!);
 
@@ -105,7 +99,7 @@ function compileShader(filePath: string, shaderType: GLenum) {
   if (!gl.getShaderParameter(compiledShader, gl.COMPILE_STATUS)) {
     throw Error(
       "Error compiling shader in shaderSupport: " +
-      gl.getShaderInfoLog(compiledShader)
+        gl.getShaderInfoLog(compiledShader)
     );
   }
 

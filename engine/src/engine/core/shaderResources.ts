@@ -11,7 +11,6 @@ const kSimpleFS = "src/shaders/SimpleFragmentShader.glsl";
 const kTextureVS = "src/shaders/TextureVertexShader.glsl";
 const kTextureFS = "src/shaders/TextureFragmentShader.glsl";
 
-
 let mTextureShader: TextureShader | null = null;
 let mConstColorShader: SimpleShader | null = null;
 
@@ -26,7 +25,7 @@ export function init() {
       text.load(kSimpleFS),
       text.load(kSimpleVS),
       text.load(kTextureVS),
-      text.load(kTextureFS)
+      text.load(kTextureFS),
     ]);
     resolve();
   }).then(function resolve() {

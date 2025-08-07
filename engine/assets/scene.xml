@@ -10,9 +10,9 @@
 
 <!--- <Square PositionX="20" PositionY="60" Width="2" Height="2" Rotation="0" Color="1.0 0.0 0.0 1.0" /> -->
 
-<TextureSquare PositionX="25" PositionY="60" Width="3" Height="3" Rotation="-5" Color="0 0 0 0" Texture="assets/minion_collector.jpg"/>
+<TextureSquare PositionX="25" PositionY="60" Width="3" Height="3" Rotation="-5" Color="0 0 0 0" Texture="assets/images/minion_collector.jpg"/>
 
-<TextureSquare PositionX="15" PositionY="60" Width="3" Height="3" Rotation="05" Color="0 0 0 0" Texture="assets/minion_portal.jpg"/>
+<TextureSquare PositionX="15" PositionY="60" Width="3" Height="3" Rotation="05" Color="0 0 0 0" Texture="assets/images/minion_portal.jpg"/>
 
 
 </CoreGameLevel>
