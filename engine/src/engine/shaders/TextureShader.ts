@@ -27,7 +27,6 @@ export class TextureShader extends SimpleShader {
     super.activate(pixelColor, trsMatrix, cameraMatrix);
 
     const gl = sysGL.get();
-    console.log(this.mTextureCoordinateRef);
 
     gl.bindBuffer(gl.ARRAY_BUFFER, this._getTextureCoordinateBuffer());
     gl.vertexAttribPointer(

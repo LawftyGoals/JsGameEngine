@@ -114,9 +114,6 @@ export function loadDecodeParse(
 }
 
 export async function waitOnPromises() {
-  console.log("Waiting on promises...");
-  console.log(mOutstandingPromises);
   await Promise.all(mOutstandingPromises);
-  console.log("All promises resolved");
   mOutstandingPromises.length = 0;
 }

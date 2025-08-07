@@ -16,7 +16,6 @@ export class TextureRenderable extends Renderable {
   }
 
   draw(camera: Camera) {
-    console.log(this.mTexture);
     texture.activate(this.mTexture);
 
     super.draw(camera);

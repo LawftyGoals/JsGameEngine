@@ -50,7 +50,6 @@ export class SceneFileParser {
 
   parseTextureSquares(squares: Renderable[]) {
     const sqElement = getElement(this.xml, "TextureSquare");
-    console.log("squuares");
 
     Array.from(sqElement).forEach((square) => {
       const rSquare = new engine.TextureRenderable(
@@ -60,7 +59,6 @@ export class SceneFileParser {
       rSquare.setColor(getXMLColleciton(square, "Color") as TVector4);
 
       const transform = rSquare.getTransform();
-      console.log(getXMLNumber(square, "PositionX"));
 
       transform.setPosition(
         getXMLNumber(square, "PositionX"),

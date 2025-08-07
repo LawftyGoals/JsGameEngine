@@ -40,11 +40,9 @@ export async function start(scene: Scene) {
   mCurrentScene = scene;
 
   mCurrentScene.load();
-  console.log("loadscene");
 
   await resourceMap.waitOnPromises();
 
-  console.log("rmwaited");
   mCurrentScene!.init();
   mPrevTime = performance.now();
   mLagTime = 0.0;

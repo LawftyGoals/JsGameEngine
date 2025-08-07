@@ -40,7 +40,6 @@ export class SimpleShader {
       this.mCompiledShader,
       "aVertexPosition"
     );
-    console.log(this.mVertexPositionRef);
     this.mPixelColorRef = gl.getUniformLocation(
       this.mCompiledShader,
       "uPixelColor"

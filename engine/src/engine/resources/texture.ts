@@ -29,21 +29,18 @@ export function load(texturePath: string) {
   if (has(texturePath)) {
     increaseRef(texturePath);
   } else {
-    console.log("else");
     loadRequested(texturePath);
     const image = new Image();
 
     texturePromise = new Promise(function (resolve) {
-      console.log(resolve);
-      console.log(texturePath);
       image.onload = resolve;
       image.src = texturePath;
+      image.onerror = function () {
+        throw new Error("Error loading texture: " + texturePath);
+      };
     }).then(function resolve() {
-      console.log("then");
       processLoadedImage(texturePath, image);
     });
-
-    console.log(texturePromise);
     pushPromise(texturePromise);
   }
 
@@ -61,8 +58,6 @@ export function unload(texturePath: string) {
 
 function processLoadedImage(path: string, image: HTMLImageElement) {
   const gl = sysGL.get();
-
-  console.log(path);
 
   const textureID = gl.createTexture();
 
@@ -95,8 +90,6 @@ function processLoadedImage(path: string, image: HTMLImageElement) {
 export function activate(texturePath: string, sharp: boolean = false) {
   const gl = sysGL.get();
   const textureInfo = get(texturePath);
-  console.log(textureInfo);
-
   gl.activeTexture(gl.TEXTURE0);
   gl.bindTexture(gl.TEXTURE_2D, textureInfo.mGLTextureID);
 
