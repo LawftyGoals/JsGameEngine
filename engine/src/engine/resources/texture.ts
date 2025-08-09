@@ -9,8 +9,6 @@ import {
   loadRequested,
 } from "../core/resourceMap";
 import * as sysGL from "../core/sysGL";
-import { texture } from "../entry";
-
 export { has, loadDecodeParse };
 
 export class TextureInfo {
