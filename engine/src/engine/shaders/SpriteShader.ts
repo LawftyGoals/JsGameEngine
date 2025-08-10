@@ -15,7 +15,7 @@ export class SpriteShader extends TextureShader {
 
         this.mTextureCoordinateBuffer = gl.createBuffer();
 
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.mTextureCoordinateRef);
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.mTextureCoordinateBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(initTextureCoordinate), gl.DYNAMIC_DRAW);
     }
 
@@ -27,5 +27,12 @@ export class SpriteShader extends TextureShader {
 
     _getTextureCoordinateBuffer(): WebGLBuffer {
         return this.mTextureCoordinateBuffer;
+    }
+
+    cleanUp() {
+        const gl = sysGL.get();
+        gl.deleteBuffer(this.mTextureCoordinateBuffer);
+
+        super.cleanUp();
     }
 }
