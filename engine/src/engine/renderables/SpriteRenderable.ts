@@ -19,14 +19,14 @@ export class SpriteRenderable extends TextureRenderable {
         this.mElementBottom = 0.0;
     }
 
-    setElementUVCoordinate(left: number, right: number, top: number, bottom: number) {
+    setElementUVCoordinate(left: number, right: number, bottom: number, top: number) {
         this.mElementLeft = left;
         this.mElementRight = right;
         this.mElementTop = top;
         this.mElementBottom = bottom;
     }
 
-    setElementPixelPositions(left: number, right: number, top: number, bottom: number) {
+    setElementPixelPositions(left: number, right: number, bottom: number, top: number) {
 
         const textureInfo = texture.get(this.mTexture) as TextureInfo;
         const imageWidth = textureInfo.mWidth;

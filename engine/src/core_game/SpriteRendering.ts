@@ -111,7 +111,7 @@ export class SpriteRendering extends engine.Scene {
             right = 1.0;
         }
 
-        this.mFontImage!.setElementUVCoordinate(textureCoordinates[eTCI.eLeft], right, textureCoordinates[eTCI.eTop], bottom);
+        this.mFontImage!.setElementUVCoordinate(textureCoordinates[eTCI.eLeft], right, bottom, textureCoordinates[eTCI.eTop]);
 
         const minionCoordinates = this.mMinion!.getElementUVCoordinates();
 
@@ -125,7 +125,7 @@ export class SpriteRendering extends engine.Scene {
             top = 1.0;
         }
 
-        this.mMinion!.setElementUVCoordinate(left, eTCI.eRight, top, eTCI.eBottom);
+        this.mMinion!.setElementUVCoordinate(left, textureCoordinates[eTCI.eRight], textureCoordinates[eTCI.eBottom], top);
 
     }
 
@@ -134,10 +134,10 @@ export class SpriteRendering extends engine.Scene {
 
         const camera = this.mCamera!
         camera.setViewAndCameraMatrix();
+        this.mFontImage?.draw(camera);
         this.mPortal?.draw(camera);
         this.mCollector?.draw(camera);
         this.mHero?.draw(camera);
-        this.mFontImage?.draw(camera);
         this.mMinion?.draw(camera);
     }
 }
