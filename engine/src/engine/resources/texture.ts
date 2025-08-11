@@ -9,7 +9,8 @@ import {
   loadRequested,
 } from "../core/resourceMap";
 import * as sysGL from "../core/sysGL";
-export { has, loadDecodeParse };
+
+export { get, has, loadDecodeParse };
 
 export class TextureInfo {
   mWidth: number;

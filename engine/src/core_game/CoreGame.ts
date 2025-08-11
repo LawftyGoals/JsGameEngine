@@ -2,6 +2,7 @@
 
 import * as engine from "../engine/entry.ts";
 import { BlueLevel } from "./BlueLevel.ts";
+import { SpriteRendering } from "./SpriteRendering.ts";
 
 export class CoreGame extends engine.Scene {
   mCamera: engine.Camera | null;
@@ -114,6 +115,6 @@ export class CoreGame extends engine.Scene {
 
 window.onload = () => {
   engine.init("GLCanvas");
-  const coreGame = new CoreGame();
+  const coreGame = new SpriteRendering();
   coreGame.start();
 };

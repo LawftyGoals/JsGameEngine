@@ -12,7 +12,8 @@ import * as loop from "./core/loop.ts";
 import * as audio from "./resources/audio.ts";
 import * as texture from "./resources/texture.ts";
 import { TextureRenderable } from "./renderables/TextureRenderable.ts";
-
+import { SpriteRenderable } from "./renderables/SpriteRenderable.ts";
+import { eTextureCoordinatesIndex } from "./renderables/SpriteRenderable.ts";
 
 export function init(htmlCanvasId: string) {
   sysGL.init(htmlCanvasId);
@@ -37,4 +38,4 @@ export function cleanUp() {
   audio.cleanUp();
 }
 
-export { audio, Camera, input, Renderable, Scene, text, texture, TextureRenderable, Transform, xml };
+export { audio, Camera, eTextureCoordinatesIndex, input, Renderable, Scene, SpriteRenderable, text, texture, TextureRenderable, Transform, xml };

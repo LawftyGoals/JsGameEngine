@@ -4,10 +4,10 @@ import * as shaderResources from "../core/shaderResources.ts";
 import { Transform } from "../Transform.ts";
 import type { TVector4 } from "../../matrix/VectorTypes.ts";
 import type { Camera } from "../Camera.ts";
-import type { TextureShader } from "../shaders/TextureShader.ts";
+import type { SpriteShader } from "../shaders/SpriteShader.ts";
 
 export class Renderable {
-  mShader: SimpleShader;
+  mShader: SimpleShader | SpriteShader;
   mColor: TVector4;
   mTransform: Transform;
   constructor() {
