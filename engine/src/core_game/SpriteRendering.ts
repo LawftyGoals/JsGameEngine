@@ -11,6 +11,7 @@ export class SpriteRendering extends engine.Scene {
     mCollector: null | engine.SpriteRenderable;
     mFontImage: null | engine.SpriteRenderable;
     mMinion: null | engine.SpriteRenderable;
+    mRightMinion: null | engine.SpriteAnimateRenderable;
     constructor() {
         super();
 
@@ -24,6 +25,7 @@ export class SpriteRendering extends engine.Scene {
         this.mCollector = null;
         this.mFontImage = null;
         this.mMinion = null;
+        this.mRightMinion = null;
 
     }
 
@@ -63,6 +65,13 @@ export class SpriteRendering extends engine.Scene {
         this.mHero.setColor([1.0, 1.0, 1.0, 0]);
         this.mHero.getTransform().setPosition(20, 60).setSize(2, 3);
         this.mHero.setElementPixelPositions(0, 120, 0, 180);
+
+        this.mRightMinion = new engine.SpriteAnimateRenderable(this.kMinionSprite);
+        this.mRightMinion.setColor([1, 1, 1, 0]);
+        this.mRightMinion.getTransform().setPosition(26, 56.5).setSize(4, 3.2);
+        this.mRightMinion.setSpriteSequence(512, 0, 204, 164, 5, 0);
+        this.mRightMinion.setAnimationType(engine.eAnimationType.eRight);
+        this.mRightMinion.setAnimationSpeed(50);
 
     }
 
@@ -127,6 +136,24 @@ export class SpriteRendering extends engine.Scene {
 
         this.mMinion!.setElementUVCoordinate(left, textureCoordinates[eTCI.eRight], textureCoordinates[eTCI.eBottom], top);
 
+        this.mRightMinion?.updateAnimation();
+
+        if (engine.input.isKeyClicked(engine.input.keys.one)) {
+            this.mRightMinion?.setAnimationType(engine.eAnimationType.eLeft);
+        }
+
+        if (engine.input.isKeyClicked(engine.input.keys.two)) {
+            this.mRightMinion?.setAnimationType(engine.eAnimationType.eSwing);
+        }
+
+        if (engine.input.isKeyClicked(engine.input.keys.four)) {
+            this.mRightMinion?.changeAnimationSpeed(-2);
+        }
+
+        if (engine.input.isKeyClicked(engine.input.keys.five)) {
+            this.mRightMinion?.changeAnimationSpeed(2);
+        }
+
     }
 
     draw() {
@@ -138,6 +165,7 @@ export class SpriteRendering extends engine.Scene {
         this.mPortal?.draw(camera);
         this.mCollector?.draw(camera);
         this.mHero?.draw(camera);
-        this.mMinion?.draw(camera);
+        this.mRightMinion?.draw(camera);
+        //this.mMinion?.draw(camera);
     }
 }
